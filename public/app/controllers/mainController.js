@@ -1,10 +1,10 @@
 angular.module('farmApp')
 .controller('MainController', MainController);
 
-MainController.$inject= ['$rootScope', '$location'];
+MainController.$inject= ['$scope', '$location'];
 
-function MainController($rootScope, $location) {
-
+function MainController($scope, $location) {
+console.log("hello im at the controller");
     var vm = this;
     // $http.get('/students')
     //     .success(function(data) {
@@ -27,7 +27,7 @@ function MainController($rootScope, $location) {
         // to the $scope.hippos array.
     };
 
-    function EmployerController($rootScope, $http) {
+    function EmployerController($scope, $http) {
    // $http.get('/employers')
    //      .success(function(data) {
    //          $scope.employer = data;

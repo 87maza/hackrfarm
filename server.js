@@ -5,20 +5,33 @@
 var express    = require('express');		// call express
 var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser'); 	// get body-parser
+var cookieParser = require('cookie-parser');
 var morgan     = require('morgan'); 		// used to see requests
 var mongoose   = require('mongoose');
+var session = require('express-session');
 var passport = require('passport');
 // var User       = require('./app/models/user'); NOT IN USE til database setup
 var config 	   = require('./config');
 var path 	   = require('path');
-
-app.use(passport.initialize());
-app.use(passport.session());
+var uuid = require('uuid');
+var authUser;
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(session({
+	genid: function(req) {
+		return uuid.v4() // use UUIDs for session IDs
+	},
+	secret: 'keyboard cat'
+}))
 
 // APP CONFIGURATION ---------------------
 // use body parser so we can grab information from POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -44,10 +57,16 @@ app.use('/students', studentRoutes);
 var employerRoutes = require('./app/routes/employers')(app, express);
 app.use('/employers', employerRoutes);
 
+//var apiRoutes = require('./app/routes/api')(app, express);
+//app.use('/api', apiRoutes);
+
+var apiRoutesAuth = require('./app/routes/authorize')(app, express);
+app.use('/authorize', apiRoutesAuth);
+
 
 //catchall to root path
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
+	res.sendFile(path.join(__dirname + '/public/app/views/index.ejs'));
 });
 
 
