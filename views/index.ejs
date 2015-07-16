@@ -85,9 +85,11 @@
 	<a href = "/auth/linkedin"> CLICK HERE</a>
 
   <%= user.displayName %>
-
-
-
+<ul>
+  <% users.forEach(function(u) { %>
+  <li><%= u.name %></li>
+  <% }); %>
+</ul>
 
   </body>
 </html>

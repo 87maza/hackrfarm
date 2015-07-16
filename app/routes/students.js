@@ -27,17 +27,15 @@ module.exports = function(app, express) {
 	// // basic route for the home page
 	app.get('/', function(req, res) {
 
-		//res.sendFile(path.resolve(__dirname + '../../../public/app/views/index.ejs'));
 
-		//console.log("user", req.user);
-        console.log(req);
-		//res.render('index', {user: req.user});
-		var users = User.find();
-		//console.log(users);
-		res.render('index', {
-					user: req.user || {},
-						users: users
+		User.find({}, function(err, userList) {
+			res.render('index', {
+				user: req.user || {},
+				users: userList || {}
+			});
 		});
+
+
 	});
 
 	passport.use(new LinkedInStrategy({
@@ -99,34 +97,36 @@ module.exports = function(app, express) {
 
 	  });
 
-	//app.get('/auth/linkedin/callback', passport.authenticate('linkedin', function(err, user, info){
-	//	console.log("user", user);
-	//		return {successRedirect: '/',
-	//				failureRedirect: '/login'};
-	//}
-	//))
 	app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
-		successRedirect: '/',
+		successRedirect: '/students',
 		failureRedirect: '/login'
 	}));
 
 	// get an instance of the express router
 	var studentRouter = express.Router();
 
-	// middleware to use for all requests
-	studentRouter.use(function(req, res, next) {
-		// do logging
-		console.log('Somebody visited /students');
-
-		next(); // make sure we go to the next routes and don't stop here
-	});
+	//// middleware to use for all requests
+	//studentRouter.use(function(req, res, next) {
+	//	// do logging
+	//	console.log('Somebody visited /students');
+	//
+	//	next(); // make sure we go to the next routes and don't stop here
+	//});
 
 
 
 	// test route to make sure everything is working 
 	// accessed at GET http://localhost:8080/
 	studentRouter.get('/', function(req, res) {
-		res.send('Broseph! welcome to our students page!');	
+		//res.send('Broseph! welcome to our students page!');
+		User.find({}, function(err, userList) {
+			res.render('students', {
+				user: req.user || {},
+				users: userList || {}
+			});
+		});
+
+
 	});
 
 

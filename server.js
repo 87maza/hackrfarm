@@ -54,6 +54,9 @@ mongoose.connect(config.database);
 var studentRoutes = require('./app/routes/students')(app, express);
 app.use('/students', studentRoutes);
 
+var profileRoutes = require('./app/routes/profile')(app, express);
+app.use('/profile', profileRoutes);
+
 var employerRoutes = require('./app/routes/employers')(app, express);
 app.use('/employers', employerRoutes);
 
