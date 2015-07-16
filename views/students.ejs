@@ -4,7 +4,14 @@
 
 <ul>
     <% users.forEach(function(u) { %>
+
     <li><%= u.name %></li>
+    <ul>
+        <li><%= u.tagline %></li>
+        <li><%= u.location %></li>
+
+    </ul>
+
     <% }); %>
 </ul>
 

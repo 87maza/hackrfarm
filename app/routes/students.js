@@ -64,11 +64,13 @@ module.exports = function(app, express) {
 		  if(user) {
 			  authUser = user;
 		  } else {
+			  console.log(profile);
 			  authUser = new User({
 				  "linkedInId": profile._json.id,
 				  "name": profile.displayName,
 				  "tagline": profile._json.headline,
 				  "location": profile._json.location.name,
+				  //"email":profile._json.email,
 				  "pic": profile._json.pictureUrl,
 				  "source": profile._json.publicProfileUrl
 			  });
