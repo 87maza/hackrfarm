@@ -3,13 +3,16 @@
 
 // CALL THE PACKAGES --------------------
 var express    = require('express');		// call express
+var helpers = require('express-helpers');
 var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser'); 	// get body-parser
+var methodOverride = require('method-override'); //used to manipulate POST
 var cookieParser = require('cookie-parser');
 var morgan     = require('morgan'); 		// used to see requests
 var mongoose   = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
+
 // var User       = require('./app/models/user'); NOT IN USE til database setup
 var config 	   = require('./config');
 var path 	   = require('path');
@@ -28,6 +31,14 @@ app.use(session({
 // use body parser so we can grab information from POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(methodOverride(function(req, res){
+	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+		// look in urlencoded POST bodies and delete it
+		var method = req.body._method
+		delete req.body._method
+		return method
+	}
+}))
 
 app.use(cookieParser());
 app.use(passport.initialize());
@@ -56,6 +67,9 @@ app.use('/students', studentRoutes);
 
 var profileRoutes = require('./app/routes/profile')(app, express);
 app.use('/profile', profileRoutes);
+
+//var updateRoutes = require('./app/routes/profile/update')(app, express);
+//app.use('/profile/update', updateRoutes);
 
 var employerRoutes = require('./app/routes/employers')(app, express);
 app.use('/employers', employerRoutes);
