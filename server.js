@@ -3,7 +3,6 @@
 
 // CALL THE PACKAGES --------------------
 var express    = require('express');		// call express
-var helpers = require('express-helpers');
 var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser'); 	// get body-parser
 var methodOverride = require('method-override'); //used to manipulate POST
