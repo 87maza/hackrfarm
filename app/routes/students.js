@@ -41,7 +41,7 @@ module.exports = function(app, express) {
 	passport.use(new LinkedInStrategy({
     clientID:     LINKEDIN_CLIENT_ID,
     clientSecret: LINKEDIN_CLIENT_SECRET,
-    callbackURL:  "http://localhost:8080/auth/linkedin/callback",
+    callbackURL:  "https://warm-basin-7635.herokuapp.com/auth/linkedin/callback",
     scope:        [ 'r_basicprofile', 'r_emailaddress'],
 			passReqToCallback: true
   	},
