@@ -5,7 +5,6 @@
 var express    = require('express');		// call express
 var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser'); 	// get body-parser
-var methodOverride = require('method-override'); //used to manipulate POST
 var cookieParser = require('cookie-parser');
 var morgan     = require('morgan'); 		// used to see requests
 var mongoose   = require('mongoose');
