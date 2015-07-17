@@ -13,7 +13,7 @@ var User = require('../models/user');
 module.exports = function(app, express){
     var profileRouter = express.Router();
 
-    // /profile
+
     profileRouter.get('/', function(req, res) {
         res.render('profile', {user: req.user});
     });
